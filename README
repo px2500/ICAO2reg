@@ -7,4 +7,8 @@
 # or can be supplied when the script is activated.
 #
 # valid input range is from A00001 to ADF7C7
-
+#
+#
+this script calculates the registration from the ICAO code
+# but the resulting registration may not currently be in use.
+#
