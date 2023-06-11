@@ -33,7 +33,7 @@ if (array_key_exists(1,$argv)) {
 
 }
 
-$h = trim(strtoupper($h));
+$h = strtoupper(trim($h));
 
 if (!preg_match("/^[0-9A-F]{6}$/",$h)) {
 
