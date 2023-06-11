@@ -93,6 +93,6 @@ if ($d1 > 0) {
  }
 }
 
-echo $reg . "\n\n";
+echo "\n" . $reg . "\n\n";
 
 ?>
