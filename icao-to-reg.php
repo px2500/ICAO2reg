@@ -3,13 +3,15 @@
 # this script converts a 6 character  hexadecimal U.S. civilian
 # ICAO address to it's corresponding registration (tail) number
 #
-# this is just a ICAO address to registration calculation,
-# the resulting registration may not currently be in use
+# this script will also convert a U.S. civilian registration (tail) number
+# to it's corresponding  6 character ICAO code.
 #
-# the hex code can either be supplied as a command line argument or if omitted on the command line,
-# as input to the script
+# these are just calculations and the  tail/ICAO number may not currently be in use
+# 
+# the tail/ICAO number can either be supplied as a command line argument or if omitted on # the command line, as input when prompted
 #
 # Paul Shelton May 2023
+# updated October 2024 to include tail to ICAO conversions
 #
 
 $reg = "N";
@@ -21,28 +23,78 @@ $skip = array(601,601,601,25,1);
 
 if (array_key_exists(1,$argv)) {
 
- $h = $argv[1];
+ $inString = $argv[1];
 
 } else {
 
- echo "Enter 6 character U.S. civilian ICAO address: ";
- $handle = fopen ("php://stdin","r");
- $h = fgets($handle);
- fclose($handle);
+ echo "Enter a 6 character ICAO code or a registration number including the leading 'N': ";
+ $inStringandle = fopen ("php://stdin","r");
+ $inString = fgets($inStringandle);
+ fclose($inStringandle);
  echo "\n";
 
 }
 
-$h = strtoupper(trim($h));
+$inString = strtoupper(trim($inString));
 
-if (!preg_match("/^[0-9A-F]{6}$/",$h)) {
+if (substr($inString,0,1) == "N") {
+
+#
+#  Convert a registration to an ICAO 24 bit address
+#
+
+$l = strlen($inString);
+if ($l < 2 || $l > 6 || !preg_match("/^N[1-9][0-9]?[0-9]?[0-9]?[0-9]?[A-HJ-NP-Z]?[A-HJ-NP-Z]?$/",$inString)) {
+
+   echo "Invalid U.S. civilian registration\n\n";
+
+} else {
+
+  $d = hexdec('A00001');  // base address for U.S. aircraft
+  $d = $d + (ord(substr($inString,1,1)) - 49) * $len1;
+
+  for ($x=2;$x<$l;$x++) {
+
+  $ord = ord(substr($inString,$x,1));
+  if ($ord < 58) {
+
+    $ord = $ord - 48;
+      $d = $d + $skip[$x -2];; // bump past alphas
+    $d = $d + $ord * $length[$x - 2];
+
+  } else {
+
+    $pos = strpos($letters,$inString[$x],1);
+
+if (is_numeric(substr($inString,$x - 1,1)) &&$x < 5) {
+      $d = $d + 1 +$pos * $lenAlpha;
+
+    } else {
+
+      $d = $d + 1 +$pos;
+
+    }
+  }
+}
+
+echo strtoupper(dechex($d)) . "\n";
+
+}
+exit(0);
+}
+
+#
+#  Convert a ICAO 24 bit address to a registration (tail) number
+#
+
+if (!preg_match("/^[0-9A-F]{6}$/",$inString)) {
 
  echo "Invalid ICAO code\n\n";
  exit(2);
 
 }
 
-if ($h < "A00001" || $h > "ADF7C7") {
+if ($inString < "A00001" || $inString > "ADF7C7") {
 
  echo "Not a U.S. civilian ICAO code\n\n";
  exit(3);
@@ -51,7 +103,7 @@ if ($h < "A00001" || $h > "ADF7C7") {
 
 # process numeric portion of registration
 
-$h = substr($h,1,5);
+$h = substr($inString,1,5);
 $d1 = hexdec($h) - 1;
 $d2 = floor($d1/$len1);
 

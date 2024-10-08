@@ -12,3 +12,6 @@
 this script calculates the registration from the ICAO code
 # but the resulting registration may not currently be in use.
 #
+# this script will also convert from registration to
+# the corresponding ICAO code
+#
