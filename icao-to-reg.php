@@ -145,6 +145,6 @@ if ($d1 > 0) {
  }
 }
 
-echo "\n" . $reg . "\n\n";
+echo $reg . "\n\n";
 
 ?>
