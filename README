@@ -1,17 +1,19 @@
-#
-# this php script will convert a 6 hex character ICAO code
-# for a U.S civilian aircraft to it's
-# corresponding registration (Tail) number.
-#
-# the hex code can either be supplied on the command line as an argument
-# or can be supplied when the script is activated.
-#
-# valid input range is from A00001 to ADF7C7
-#
-#
+
+ this php script will convert a 6 hex character ICAO code
+ for a U.S civilian aircraft to it's
+ corresponding registration (Tail) number.
+
+ the hex code can either be supplied on the command line as an argument
+ or can be supplied when the script is activated.
+
+ valid input range is from A00001 to ADF7C7
+
+
 this script calculates the registration from the ICAO code
-# but the resulting registration may not currently be in use.
-#
-# this script will also convert from registration to
-# the corresponding ICAO code
-#
+ but the resulting registration may not currently be in use.
+
+ this script will also convert from registration to
+ the corresponding ICAO code
+
+Please direct any questions or comments to px2500.general@gmail.com
+
